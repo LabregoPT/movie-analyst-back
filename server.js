@@ -18,14 +18,18 @@ app.use(jwtCheck);
 var guard = function (req, res, next) {
     var adminPerms = 'admin'
     var genPerms = 'general'
+
+    //Check all paths of this app
     if (req.path == '/movies' || req.path == '/reviewers' || req.path == '/publications') {
-        if (req.auth.payload.scope == genPerms) {
+        //check if either of the permissions exist in the scope of the auth received
+        if (req.auth.payload.scope.includes(genPerms)||req.auth.payload.scope.includes(adminPerms)) {
             next();
         } else {
             res.status(403).send({ message: 'Forbidden' });
         }
     } else if (req.path == '/pending') {
-        if (req.auth.payload.scope == adminPerms) {
+        //Check if the scope contains admin
+        if (req.auth.payload.scope.includes(adminPerms)) {
             next();
         } else {
             res.status(403).send({ mesage: 'Forbidden' });
