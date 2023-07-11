@@ -3,9 +3,6 @@
 var express = require('express');
 var app = express();
 var { auth } = require('express-oauth2-jwt-bearer');
-var mysql = require('mysql2');
-require('dotenv').config();
-
 //Create connection to DB
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -68,9 +65,9 @@ function getMoviesFromDB(callback) {
     });
 }
 
+
 // Implement the movies API endpoint
 app.get('/movies', function (req, res) {
-
     getMoviesFromDB(function (err, result) {
         if (err) {
             res.status(500).json({ message: err })
