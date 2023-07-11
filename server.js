@@ -1,23 +1,43 @@
 // Get our dependencies
 
-//import { expressjwt } from 'express-jwt'
-var {expressjwt: jwt} = require('express-jwt');
 var express = require('express');
 var app = express();
-//var jwt = require('express-jwt');
-var rsaValidation = require('auth0-api-jwt-rsa-validation');
+var { auth } = require('express-oauth2-jwt-bearer');
 
 // We’ll create a middleware function to validate the access token when our API is called
 // Note that the audience field is the identifier you gave to your API.
-var jwtCheck = jwt({
-    secret: rsaValidation(),
-    algorithms: ['RS256'],
-    issuer: "https://dev-5lh8pmfhr4e8svyt.us.auth0.com",
-    audience: 'analyst_api_id'
+var jwtCheck = auth({
+    audience: 'analyst_api_id',
+    issuerBaseURL: 'https://dev-5lh8pmfhr4e8svyt.us.auth0.com/',
+    tokenSigningAlg: 'RS256'
 });
-
 // Enable the use of the jwtCheck middleware in all of our routes
 app.use(jwtCheck);
+
+//Auth0 Auth function
+var guard = function (req, res, next) {
+    var adminPerms = 'admin'
+    var genPerms = 'general'
+
+    //Check all paths of this app
+    if (req.path == '/movies' || req.path == '/reviewers' || req.path == '/publications') {
+        //check if either of the permissions exist in the scope of the auth received
+        if (req.auth.payload.scope.includes(genPerms)||req.auth.payload.scope.includes(adminPerms)) {
+            next();
+        } else {
+            res.status(403).send({ message: 'Forbidden' });
+        }
+    } else if (req.path == '/pending') {
+        //Check if the scope contains admin
+        if (req.auth.payload.scope.includes(adminPerms)) {
+            next();
+        } else {
+            res.status(403).send({ mesage: 'Forbidden' });
+        }
+    }
+};
+app.use(guard);
+
 
 // If we do not get the correct credentials, we’ll return an appropriate message
 app.use(function (err, req, res, next) {
@@ -27,9 +47,11 @@ app.use(function (err, req, res, next) {
 });
 
 
+
 // Implement the movies API endpoint
 app.get('/movies', function (req, res) {
     // Get a list of movies and their review scores
+    //console.log("Returned movie list in JSON format!")
     var movies = [
         { title: 'Suicide Squad', release: '2016', score: 8, reviewer: 'Robert Smith', publication: 'The Daily Reviewer' },
         { title: 'Batman vs. Superman', release: '2016', score: 6, reviewer: 'Chris Harris', publication: 'International Movie Critic' },
