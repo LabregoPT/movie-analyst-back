@@ -22,13 +22,13 @@ var guard = function (req, res, next) {
         if (req.auth.payload.scope == genPerms) {
             next();
         } else {
-            res.send(403, { message: 'Forbidden' });
+            res.status(403).send({ message: 'Forbidden' });
         }
     } else if (req.path == '/pending') {
         if (req.auth.payload.scope == adminPerms) {
             next();
         } else {
-            res.send(403, { mesage: 'Forbidden' });
+            res.status(403).send({ mesage: 'Forbidden' });
         }
     }
 };
