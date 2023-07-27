@@ -23,7 +23,7 @@ jobs:
             - name: Run tests
               run: npm run test-unit
               env:
-                DB_HOST: localhost
-                DB_USER: root
-                DB_PASSWORD: root
-                DB_NAME: movie_db
+                DB_HOST: "localhost"
+                DB_USER: "root"
+                DB_PASSWORD: "root"
+                DB_NAME: "movie_db"
