@@ -71,7 +71,7 @@ app.use(function (err, req, res, next) {
 
 //Display server's IP when requesting /
 app.get('/', function (req, res) {
-    var nets = networkInterfaces();
+    /*var nets = networkInterfaces();
     var results = {};
     for (var name of Object.keys(nets)) {
         for (var net of nets[name]) {
@@ -86,7 +86,8 @@ app.get('/', function (req, res) {
             }
         }
     }
-    res.status(200).json(results)
+    res.status(200).json(results)*/
+    res.status(200)
 })
 
 function getMoviesFromDB(callback) {
