@@ -1,10 +1,11 @@
 // Get our dependencies
-
 var express = require('express');
 var app = express();
 var { auth } = require('express-oauth2-jwt-bearer');
 var mysql = require('mysql2');
 require('dotenv').config();
+var { networkInterfaces } = require('os');
+
 //Create connection to DB
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -49,6 +50,9 @@ var guard = function (req, res, next) {
         } else {
             res.status(403).send({ mesage: 'Forbidden' });
         }
+    } else if (req.path == '/') {
+        //Don't do any check
+        next();
     }
 };
 app.use(guard);
@@ -56,10 +60,34 @@ app.use(guard);
 
 // If we do not get the correct credentials, we’ll return an appropriate message
 app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).json({ message: 'Missing or invalid token' });
+    if (req.path != "/") {
+        if (err.name === 'UnauthorizedError') {
+            res.status(401).json({ message: 'Missing or invalid token' });
+        }
+    } else {
+        next();
     }
 });
+
+//Display server's IP when requesting /
+app.get('/', function (req, res) {
+    var nets = networkInterfaces();
+    var results = {};
+    for (var name of Object.keys(nets)) {
+        for (var net of nets[name]) {
+            // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+            // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+            const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+            if (net.family === familyV4Value && !net.internal) {
+                if (!results[name]) {
+                    results[name] = [];
+                }
+                results[name].push(net.address);
+            }
+        }
+    }
+    res.status(200).json(results)
+})
 
 function getMoviesFromDB(callback) {
     connection.query("select * from " + process.env.DB_NAME + ".moviereview where pending = false", function (err, rows) {
@@ -146,4 +174,4 @@ app.get('/pending', function (req, res) {
 })
 
 // Launch our API Server and have it listen on port 8080.
-app.listen(8080);
+module.exports = app.listen(8080);
