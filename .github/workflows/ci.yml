@@ -20,7 +20,10 @@ jobs:
               uses: actions/checkout@v3
               with:
                 repository: 'LabregoPT/movie-analyst-db'
+                clean: false
             - name: Display current directory
               run: |
                 pwd
-                ls
+                dir
+                mysql
+              
