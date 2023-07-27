@@ -20,7 +20,6 @@ jobs:
               run: |
                 sudo systemctl start mysql.service
                 sudo mysql --user=root --password=root < "./db/table-creation.sql"
-                netstat -tlnp
                 npm run test-unit
               env:
                 DB_HOST: "127.0.0.1"
