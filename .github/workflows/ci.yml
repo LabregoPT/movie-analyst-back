@@ -21,5 +21,4 @@ jobs:
                 pwd
                 dir
                 sudo systemctl start mysql.service
-                sudo mysql --user=root --password=root -e "create database movie_db"
                 sudo mysql --user=root --password=root movie_db < "./db/table-creation.sql"
