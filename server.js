@@ -6,13 +6,6 @@ var mysql = require('mysql2');
 require('dotenv').config();
 var { networkInterfaces } = require('os');
 
-var connCredentials = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-}
-
 //Create connection to DB
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -23,11 +16,6 @@ var connection = mysql.createConnection({
 connection.connect((err) => {
     if (err) {
         console.log("An error has ocurred connecting to DB, please check credentials\n" + err);
-        console.log("Provided credentials were: \n" + 
-                    "Host: "+connCredentials.host+"\n"+
-                    "User: "+connCredentials.user+"\n"+
-                    "PWD: "+connCredentials.password+"\n"+
-                    "DB: "+connCredentials.database+"\n")
         throw err;
     }
 })

@@ -16,12 +16,11 @@ jobs:
               run: |
                 npm update
                 npm install
-            - name: Start mock DB
+            - name: Run tests
               run: |
+                npm run test-unit
                 sudo systemctl start mysql.service
                 sudo mysql --user=root --password=root < "./db/table-creation.sql"
-            - name: Run tests
-              run: npm run test-unit
               env:
                 DB_HOST: "localhost"
                 DB_USER: "root"
