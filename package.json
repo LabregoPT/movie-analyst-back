@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "jest": "^29.6.2",
+    "rewire": "^6.0.0",
+    "sinon": "^15.2.0",
     "supertest": "^6.3.3"
   }
 }
