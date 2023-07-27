@@ -16,14 +16,8 @@ jobs:
               run: |
                 npm update
                 npm install
-            - name: Download sql scripts
-              uses: actions/checkout@v3
-              with:
-                repository: 'LabregoPT/movie-analyst-db'
-                clean: false
             - name: Display current directory
               run: |
                 pwd
                 dir
-                mysql
-              
+                sudo mysql --user=root --password=root < "./db/table-creation.sql"
