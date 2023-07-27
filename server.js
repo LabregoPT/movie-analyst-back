@@ -22,8 +22,12 @@ var connection = mysql.createConnection({
 });
 connection.connect((err) => {
     if (err) {
-        console.log("An error has ocurred connecting to DB, please check credentials" + err);
-        console.log("Provided credentials were: \n" + connCredentials)
+        console.log("An error has ocurred connecting to DB, please check credentials\n" + err);
+        console.log("Provided credentials were: \n" + 
+                    "Host: "+connCredentials.host+"\n"+
+                    "User: "+connCredentials.user+"\n"+
+                    "PWD: "+connCredentials.password+"\n"+
+                    "DB: "+connCredentials.database+"\n")
         throw err;
     }
 })
