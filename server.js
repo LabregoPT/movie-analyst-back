@@ -6,16 +6,24 @@ var mysql = require('mysql2');
 require('dotenv').config();
 var { networkInterfaces } = require('os');
 
+var connCredentials = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+}
+
 //Create connection to DB
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
-}); 
+});
 connection.connect((err) => {
     if (err) {
         console.log("An error has ocurred connecting to DB, please check credentials" + err);
+        console.log("Provided credentials were: \n" + connCredentials)
         throw err;
     }
 })
@@ -71,12 +79,10 @@ app.use(function (err, req, res, next) {
 
 //Display server's IP when requesting /
 app.get('/', function (req, res) {
-    /*var nets = networkInterfaces();
+    var nets = networkInterfaces();
     var results = {};
     for (var name of Object.keys(nets)) {
         for (var net of nets[name]) {
-            // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-            // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
             const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
             if (net.family === familyV4Value && !net.internal) {
                 if (!results[name]) {
@@ -86,7 +92,7 @@ app.get('/', function (req, res) {
             }
         }
     }
-    res.status(200).json(results)*/
+    res.status(200).json(results)
     res.status(200)
 })
 
