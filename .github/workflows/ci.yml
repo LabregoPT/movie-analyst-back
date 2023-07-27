@@ -20,4 +20,5 @@ jobs:
               run: |
                 pwd
                 dir
-                sudo mysql --user=root --password=root < "./db/table-creation.sql"
+                sudo mysql --user=root --password=root -e "create database movie_db"
+                sudo mysql --user=root --password=root movie_db < "./db/table-creation.sql"
