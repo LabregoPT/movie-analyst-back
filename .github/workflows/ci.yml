@@ -16,9 +16,14 @@ jobs:
               run: |
                 npm update
                 npm install
-            - name: Display current directory
+            - name: Start mock DB
               run: |
-                pwd
-                dir
                 sudo systemctl start mysql.service
                 sudo mysql --user=root --password=root < "./db/table-creation.sql"
+            - name: Run tests
+              run: npm run test-unit
+              env:
+                DB_HOST: localhost
+                DB_USER: root
+                DB_PASSWORD: root
+                DB_NAME: movie_db
