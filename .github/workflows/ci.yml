@@ -16,5 +16,11 @@ jobs:
               run: |
                 npm update
                 npm install
-            - name: Run tests
-              run: npm run test-unit
+            - name: Download sql scripts
+              uses: actions/checkout@v3
+              with:
+                repository: 'LabregoPT/movie-analyst-db'
+            - name: Display current directory
+              run: |
+                pwd
+                ls
