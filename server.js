@@ -1,8 +1,11 @@
 // Get our dependencies
-
 var express = require('express');
 var app = express();
 var { auth } = require('express-oauth2-jwt-bearer');
+var mysql = require('mysql2');
+require('dotenv').config();
+var { networkInterfaces } = require('os');
+
 //Create connection to DB
 var connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -12,7 +15,7 @@ var connection = mysql.createConnection({
 });
 connection.connect((err) => {
     if (err) {
-        console.log("An error has ocurred connecting to DB, please check credentials");
+        console.log("An error has ocurred connecting to DB, please check credentials\n" + err);
         throw err;
     }
 })
@@ -47,6 +50,9 @@ var guard = function (req, res, next) {
         } else {
             res.status(403).send({ mesage: 'Forbidden' });
         }
+    } else if (req.path == '/') {
+        //Don't do any check
+        next();
     }
 };
 app.use(guard);
@@ -54,17 +60,39 @@ app.use(guard);
 
 // If we do not get the correct credentials, we’ll return an appropriate message
 app.use(function (err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).json({ message: 'Missing or invalid token' });
+    if (req.path != "/") {
+        if (err.name === 'UnauthorizedError') {
+            res.status(401).json({ message: 'Missing or invalid token' });
+        }
+    } else {
+        next();
     }
 });
+
+//Display server's IP when requesting /
+app.get('/', function (req, res) {
+    var nets = networkInterfaces();
+    var results = {};
+    for (var name of Object.keys(nets)) {
+        for (var net of nets[name]) {
+            const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+            if (net.family === familyV4Value && !net.internal) {
+                if (!results[name]) {
+                    results[name] = [];
+                }
+                results[name].push(net.address);
+            }
+        }
+    }
+    res.status(200).json(results)
+    res.status(200)
+})
 
 function getMoviesFromDB(callback) {
     connection.query("select * from " + process.env.DB_NAME + ".moviereview where pending = false", function (err, rows) {
         callback(err, rows);
     });
 }
-
 
 // Implement the movies API endpoint
 app.get('/movies', function (req, res) {
@@ -145,4 +173,5 @@ app.get('/pending', function (req, res) {
 })
 
 // Launch our API Server and have it listen on port 8080.
-app.listen(8080);
+module.exports = app.listen(8080);
+module.exports.db = connection;
