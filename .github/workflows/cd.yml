@@ -14,4 +14,23 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             tf_api_token: ${{ secrets.TF_API_TOKEN }}
             gcp_credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
-            
+    upload-artifact:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Setup node
+              uses: actions/setup-node@v3
+            - name: Install packages
+              run: |
+                npm update
+                npm install
+            - name: Zip artifact
+              run: |
+                sudo apt install zip --yes
+                zip -qq -r back.zip .
+            - name: Upload artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: latest
+                path: ./back.zip
