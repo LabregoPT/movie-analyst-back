@@ -1,0 +1,9 @@
+name: Frontend Deployment Pipeline
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - "master"
+jobs:
+    test-call-from-repo:
+        uses: labregopt/movie-analyst-infra/.github/workflows/infra-deploy.yml
