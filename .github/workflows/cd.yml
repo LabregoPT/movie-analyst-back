@@ -14,3 +14,4 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             tf_api_token: ${{ secrets.TF_API_TOKEN }}
             gcp_credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
+            
