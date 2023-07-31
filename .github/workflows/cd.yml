@@ -55,3 +55,14 @@ jobs:
                 ansible-inventory -i gcp_vm.gcp.yml --graph
               env:
                 GCP_SERVICE_ACCOUNT_CONTENTS: ${{ secrets.GCP_CREDENTIALS_JSON }}
+            - name: Download artifact in machine
+              uses: actions/download-artifact@v3
+              with:
+                name: latest
+                path: /home/jhone
+            - name: Deploy artifact to target machines
+              run: |
+                cd ansible
+                ansible-playbook deploy-artifact.yml -i gcp_vm.gcp.yml
+              env:
+                GCP_SERVICE_ACCOUNT_CONTENTS: ${{ secrets.GCP_CREDENTIALS_JSON }}

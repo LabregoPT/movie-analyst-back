@@ -1,0 +1,21 @@
+## Playbook to deploy the artifact to backend VM instances
+---
+- name: Deploy Artifact
+  hosts: _back
+  remote_user: jhone
+  become: yes
+  tasks:
+  - name: Remove app folder if exists
+    shell:
+      cmd: rm -rf /home/jhone/back
+  - name: Create clean app folder
+    shell:
+      cmd: mkdir -p /home/jhone/back
+  - name: Install unzip
+    apt:
+      name: unzip
+      update_cache: yes
+  - name: Extract back.zip on app folder
+    unarchive:
+      src: /home/jhone/back.zip
+      dest: /home/jhone/back
