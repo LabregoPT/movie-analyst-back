@@ -2,3 +2,5 @@ plugin: google.cloud.gcp_compute
 auth_kind: serviceaccount
 projects:
   - boxwood-faculty-392406
+keyed_groups:
+  - key: labels
