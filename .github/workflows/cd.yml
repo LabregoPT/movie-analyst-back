@@ -34,3 +34,18 @@ jobs:
               with:
                 name: latest
                 path: ./back.zip
+    deploy-app:
+        needs: [deploy-infrastructure, upload-artifact]
+        runs-on: self-hosted
+        steps:
+            - name: Obtain code from repo
+              uses: actions/checkout@v3
+            - name: Install Ansible and dependencies
+              run: |
+                sudo apt update
+                sudo apt install software-properties-common --yes
+                sudo add-apt-repository --yes --update ppa:ansible/ansible
+                sudo apt install ansible --yes
+            - name: Find objective machines
+              run: |
+                echo "Pending implementation"
