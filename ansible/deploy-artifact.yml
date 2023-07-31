@@ -1,7 +1,7 @@
 ## Playbook to deploy the artifact to backend VM instances
 ---
 - name: Deploy Artifact
-  hosts: layer_back
+  hosts: _back
   remote_user: jhone
   become: yes
   tasks:
