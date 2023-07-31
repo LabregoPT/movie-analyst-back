@@ -52,3 +52,6 @@ jobs:
             - name: Find objective machines
               run: |
                 cd ansible
+                ansible-inventory -i gcp_vm.gcp.yml --graph
+              env:
+                GCP_SERVICE_ACCOUNT_CONTENTS: ${{ secrets.GCP_CREDENTIALS_JSON }}

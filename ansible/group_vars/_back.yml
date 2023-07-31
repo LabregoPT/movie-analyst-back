@@ -1,4 +1,4 @@
-# Variables for GCP Instances where tag Layer = front
+# Variables for GCP Instances where label is back
 ---
-ansible_ssh_private_key_file: /home/ubuntu/id_rsa
-ansible_user: ubuntu
+ansible_ssh_private_key_file: /home/jhone/id_rsa
+ansible_user: jhone
