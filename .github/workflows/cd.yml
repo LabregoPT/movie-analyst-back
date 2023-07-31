@@ -46,6 +46,9 @@ jobs:
                 sudo apt install software-properties-common --yes
                 sudo add-apt-repository --yes --update ppa:ansible/ansible
                 sudo apt install ansible --yes
+                ansible-galaxy collection install google.cloud
+                sudo apt install python3-pip --yes
+                sudo pip install requests google-auth
             - name: Find objective machines
               run: |
-                echo "Pending implementation"
+                cd ansible
