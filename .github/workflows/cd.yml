@@ -6,4 +6,8 @@ on:
             - "master"
 jobs:
     test-call-from-repo:
-        uses: labregopt/movie-analyst-infra/.github/workflows/infra-deploy.yml
+        uses: labregopt/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
+        secrets:
+            aws_access_key: "asd"
+            aws_secret_access_key: "asd"
+            gcp_credentials_file: "asd"
