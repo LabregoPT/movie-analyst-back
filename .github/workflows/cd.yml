@@ -1,4 +1,4 @@
-name: Frontend Deployment Pipeline
+name: Backend Deployment Pipeline
 on:
     workflow_dispatch:
     push:
@@ -7,9 +7,10 @@ on:
             #Temp dev config delete later
             - "feature/**"
 jobs:
-    test-call-from-repo:
-        uses: labregopt/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
+    deploy-infrastructure:
+        uses: LabregoPT/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
         secrets:
             aws_access_key: "asd"
             aws_secret_access_key: "asd"
-            gcp_credentials_file: "asd"
+            tf_api_token: "asd"
+            gcp_credentials_json: "asd"
