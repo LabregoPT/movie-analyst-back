@@ -4,6 +4,8 @@ on:
     push:
         branches:
             - "master"
+            #Temp dev config delete later
+            - "feature/**"
 jobs:
     test-call-from-repo:
         uses: labregopt/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
