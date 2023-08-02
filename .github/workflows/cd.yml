@@ -62,7 +62,7 @@ jobs:
           - name: Display target machines
             run: |
               cd ansible
-              ansible-inventory -i azure.azurerm.yml --graph
+              ansible-inventory -i azure.azure_rm.yml --graph
             env:
               AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
               AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
