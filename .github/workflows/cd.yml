@@ -39,7 +39,7 @@ jobs:
                 name: latest
                 path: ./back.zip
     deploy-db:
-        #needs: [deploy-infrastructure]
+        needs: [deploy-infrastructure]
         runs-on: self-hosted
         steps:
           - name: Install dependencies
