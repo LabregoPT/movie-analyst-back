@@ -1,0 +1,16 @@
+  ## Playbook to provision and deploy a MySQL Database with the given configurations
+---
+- name: Deploy Database
+  hosts: all
+  remote_user: jhone
+  become: yes
+  ansible_ssh_private_key_file: /home/jhone/id_rsa
+  tasks:
+  - name: Install mysql-server
+    apt:
+      name: mysql-server
+      update_cache: yes
+  - name: Copy SQL Scripts
+    ansible.builtin.copy:
+      src: ../db/
+      dest: /home/jhone/db/
