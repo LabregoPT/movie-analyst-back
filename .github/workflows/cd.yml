@@ -50,12 +50,10 @@ jobs:
               path: /home/jhone
           - name: Set env vars with provided json
             run: |
-              cat /home/jhone/infra-output.json | jq -r '@sh "export DB_HOST=\(.db_private_ip.value)"' >env.sh
-              sudo chmod +x env.sh
+              cat /home/jhone/infra-output.json | jq -r '"DB_HOST=\(.db_private_ip.value)\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}\nDB_NAME=movie-db"' >db.env
               dir
               pwd
-              ./env.sh
-              sudo printenv
+              cat db.env
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
