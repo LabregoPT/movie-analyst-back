@@ -22,5 +22,5 @@ INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication
 INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication) VALUES ('Batman V Superman', '2016', 6, 'Martin Thomas', 'TheOne');
 INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication) VALUES ('Mad Max: Fury Road', '2015', 6, 'Anthony Miller', 'ComicBookHero.com');
 INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication, pending) VALUES ('Superman: Homecoming', '2017', 10, 'Chris Harris', 'International Movie Critic', true);
-INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication, pending) VALUES ('Wonder Woman', '2017', 8, 'Martin Thomas', 'TheOne', true;
+INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication, pending) VALUES ('Wonder Woman', '2017', 8, 'Martin Thomas', 'TheOne', true);
 INSERT INTO movie_db.moviereview (title, `release`, score, reviewer, publication, pending) VALUES ('Doctor Strange', '2016', 7, 'Anthony Miller', 'ComicBookHero.com', true);
