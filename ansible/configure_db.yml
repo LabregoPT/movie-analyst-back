@@ -4,7 +4,6 @@
   hosts: all
   remote_user: jhone
   become: yes
-  ansible_ssh_private_key_file: /home/jhone/id_rsa
   tasks:
   - name: Install mysql-server
     apt:
