@@ -14,6 +14,8 @@ jobs:
             aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             tf_api_token: ${{ secrets.TF_API_TOKEN }}
             gcp_credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
+            azure_secret_key: ${{ secrets.AZURE_SECRET_KEY }}
+            vpn_secret: ${{ secrets.VPN_SECRET }}
     upload-artifact:
         runs-on: ubuntu-latest
         steps:
