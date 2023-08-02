@@ -51,8 +51,9 @@ jobs:
           - name: Set env vars with provided json
             run: |
               cat /home/jhone/infra-output.json | jq -r '@sh "export DB_HOST=\(.db_private_ip.value)"' >env.sh
-              sudo ./env.sh
-              sudo printenv
+              sudo pwd | dir  
+            # sudo ./env.sh
+            # sudo printenv
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
