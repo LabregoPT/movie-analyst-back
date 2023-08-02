@@ -55,7 +55,7 @@ jobs:
               dir
               pwd
               ./env.sh
-            # sudo printenv
+              sudo printenv
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
