@@ -34,6 +34,13 @@ jobs:
               with:
                 name: latest
                 path: ./back.zip
+    deploy-db:
+        needs: [deploy-infrastructure]
+        runs-on: self-hosted
+        steps:
+          - name: Install dependencies
+            run: |
+              sudo apt install jq --yes
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
