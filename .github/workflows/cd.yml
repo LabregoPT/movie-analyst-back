@@ -58,7 +58,6 @@ jobs:
               sudo add-apt-repository --yes --update ppa:ansible/ansible
               sudo apt install ansible --yes
               ansible-galaxy collection install azure.azcollection
-              pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
           - name: Display target machines
             run: |
               cd ansible
