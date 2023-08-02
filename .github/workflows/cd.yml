@@ -43,6 +43,11 @@ jobs:
           - name: Install dependencies
             run: |
               sudo apt install jq --yes
+          - name: Download infra artifact
+            uses: actions/download-artifact@v3
+            with:
+              name: infra-output
+              path: /home/jhone
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
