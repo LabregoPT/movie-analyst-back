@@ -8,8 +8,6 @@ on:
             - "feature/**"
 jobs:
     deploy-infrastructure:
-        #TEMP DEV REMOVE LATER
-        if: false
         uses: LabregoPT/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
         secrets:
             aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
