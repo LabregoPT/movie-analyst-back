@@ -8,6 +8,8 @@ on:
             - "feature/**"
 jobs:
     deploy-infrastructure:
+        #TEMP DEV REMOVE LATER
+        if: false
         uses: LabregoPT/movie-analyst-infra/.github/workflows/infra-deploy.yml@master
         secrets:
             aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -17,7 +19,7 @@ jobs:
             azure_secret_key: ${{ secrets.AZURE_SECRET_KEY }}
             vpn_secret: ${{ secrets.VPN_SECRET }}
     upload-artifact:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-latest  
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -50,10 +52,24 @@ jobs:
               path: /home/jhone
           - name: Set env vars with provided json
             run: |
-              cat /home/jhone/infra-output.json | jq -r '"DB_HOST=\(.db_private_ip.value)\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}\nDB_NAME=movie-db"' >db.env
-              dir
-              pwd
-              cat db.env
+              cat /home/jhone/infra-output.json | jq -r '"DB_HOST=\(.db_private_ip.value)\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{secrets.DB_PASSWORD}}\nDB_NAME=movie-db"' >/home/jhone/db.env
+          - name: Install Ansible Azure dependencies
+            run: |
+              sudo apt update
+              sudo apt install software-properties-common --yes
+              sudo add-apt-repository --yes --update ppa:ansible/ansible
+              sudo apt install ansible --yes
+              ansible-galaxy collection install azure.azcollection
+              pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
+          - name: Display target machines
+            run: |
+              cd ansible
+              ansible-inventory -i azure.azurerm.yml
+            env:
+              AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+              AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+              AZURE_SECRET: ${{ secrets.AZURE_SECRET_KEY }}
+              AZURE_TENANT: ${{ secrets.AZURE_TENANT }}
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted

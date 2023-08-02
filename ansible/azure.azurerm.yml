@@ -1,0 +1,5 @@
+---
+plugin: azure.azcollection.azure_rm
+auth_source: env
+include_vm_resource_groups:
+- database-resource-group
