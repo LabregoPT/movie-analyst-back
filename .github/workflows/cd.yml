@@ -68,7 +68,7 @@ jobs:
               AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
               AZURE_SECRET: ${{ secrets.AZURE_SECRET_KEY }}
               AZURE_TENANT: ${{ secrets.AZURE_TENANT }}
-          - name: Install MySQL Server on Target Machines
+          - name: Install and configure MySQL Server
             run: |
               cd ansible
               ansible-playbook configure_db.yml -i azure.azure_rm.yml
