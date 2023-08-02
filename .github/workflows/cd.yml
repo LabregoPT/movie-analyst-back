@@ -50,9 +50,9 @@ jobs:
               path: /home/jhone
           - name: Set env vars with provided json
             run: |
-              jq -r '@sh "export BACK_HOST=\(.backend_lb_public_ip.value)\nexport DB_HOST=\(.db_private_ip.value)"' >env.sh
-              source env.sh
-              printenv
+              sudo jq -r '@sh "export BACK_HOST=\(.backend_lb_public_ip.value)\nexport DB_HOST=\(.db_private_ip.value)"' >env.sh
+              sudo source env.sh
+              sudo printenv
     deploy-app:
         needs: [deploy-infrastructure, upload-artifact]
         runs-on: self-hosted
