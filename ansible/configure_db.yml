@@ -13,6 +13,12 @@
     ansible.builtin.copy:
       src: ../db/
       dest: /home/jhone/db
+  - name: Clean DB
+    shell:
+      cmd: mysql -u root < /home/jhone/db/db-reset.sql
   - name: Run DB creation script
     shell:
       cmd: mysql -u root < /home/jhone/db/table-creation.sql
+  - name: Add data
+    shell:
+      cmd: mysql -u root < /home/jhone/db/data-addition.sql
