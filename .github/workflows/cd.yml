@@ -50,7 +50,7 @@ jobs:
               path: /home/jhone
           - name: Set env vars with provided json
             run: |
-              cat /home/jhone/infra-output.json | jq -r '@sh "sudo export DB_HOST=\(.db_private_ip.value)"' >env.sh
+              cat /home/jhone/infra-output.json | jq -r '@sh "export DB_HOST=\(.db_private_ip.value)"' >env.sh
               sudo chmod +x env.sh
               dir
               pwd
